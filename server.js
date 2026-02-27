@@ -16,7 +16,10 @@ function generateId() {
 app.get("/", (req, res) => {
   res.send("BORA backend running 🚀");
 });
-// ROTA TESTE - criar pedido pelo navegador
+
+/* =============================
+   CRIAR PEDIDO (BROWSER TESTE)
+============================= */
 app.get("/create-order", (req, res) => {
   const order = {
     id: generateId(),
@@ -28,6 +31,38 @@ app.get("/create-order", (req, res) => {
   res.send("Pedido criado 👍");
 });
 
+/* =============================
+   LISTAR PEDIDOS
+============================= */
+app.get("/orders", (req, res) => {
+  res.json(orders);
+});
+
+/* =============================
+   ACEITAR PEDIDO (BROWSER)
+============================= */
+app.get("/accept/:id", (req, res) => {
+  const order = orders.find(o => o.id === req.params.id);
+  if (!order) return res.send("Pedido não encontrado");
+
+  order.status = "accepted";
+  res.send("Pedido aceite 🚀");
+});
+
+/* =============================
+   ENTREGAR PEDIDO (BROWSER)
+============================= */
+app.get("/deliver/:id", (req, res) => {
+  const order = orders.find(o => o.id === req.params.id);
+  if (!order) return res.send("Pedido não encontrado");
+
+  order.status = "delivered";
+  res.send("Pedido entregue 📦");
+});
+
+/* =============================
+   ROTAS POST (APP FUTURA)
+============================= */
 app.post("/orders", (req, res) => {
   const order = {
     id: generateId(),
@@ -39,26 +74,7 @@ app.post("/orders", (req, res) => {
   res.json(order);
 });
 
-app.get("/orders", (req, res) => {
-  res.json(orders);
-});
-
-app.post("/orders/:id/accept",// versão GET para testes no navegador
-app.get("/accept/:id", (req, res) => {
-  const order = orders.find(o => o.id === req.params.id);
-  if (!order) return res.send("Pedido não encontrado");
-
-  order.status = "accepted";
-  res.send("Pedido aceite 🚀");
-});
-
-app.get("/deliver/:id", (req, res) => {
-  const order = orders.find(o => o.id === req.params.id);
-  if (!order) return res.send("Pedido não encontrado");
-
-  order.status = "delivered";
-  res.send("Pedido entregue 📦");
-}); (req, res) => {
+app.post("/orders/:id/accept", (req, res) => {
   const order = orders.find(o => o.id === req.params.id);
   if (!order) return res.status(404).send("Pedido não encontrado");
 
