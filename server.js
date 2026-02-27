@@ -16,6 +16,17 @@ function generateId() {
 app.get("/", (req, res) => {
   res.send("BORA backend running 🚀");
 });
+// ROTA TESTE - criar pedido pelo navegador
+app.get("/create-order", (req, res) => {
+  const order = {
+    id: generateId(),
+    status: "pending",
+    createdAt: new Date(),
+  };
+
+  orders.push(order);
+  res.send("Pedido criado 👍");
+});
 
 app.post("/orders", (req, res) => {
   const order = {
